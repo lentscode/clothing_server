@@ -1,7 +1,7 @@
 import "package:mongo_dart/mongo_dart.dart";
 import "package:shared/shared.dart";
 
-import "../../../clothing.dart";
+import "../../../server.dart";
 
 part "outfit_data_source.impl.dart";
 
