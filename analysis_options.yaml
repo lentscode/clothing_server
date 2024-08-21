@@ -18,6 +18,8 @@ include: package:lints/recommended.yaml
 linter:
   rules:
     - always_specify_types
+    - public_member_api_docs
+    - prefer_const_constructors
     - prefer_expression_function_bodies
     - prefer_double_quotes
     - prefer_relative_imports
