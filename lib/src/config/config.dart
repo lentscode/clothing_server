@@ -3,7 +3,7 @@ library;
 import "package:get_it/get_it.dart";
 import "package:mongo_dart/mongo_dart.dart";
 
-import "../../clothing.dart";
+import "../../server.dart";
 import "../logic/auth/auth.dart";
 
 final GetIt getIt = GetIt.instance;

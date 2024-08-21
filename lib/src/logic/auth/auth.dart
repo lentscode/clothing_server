@@ -7,7 +7,7 @@ import "package:mongo_dart/mongo_dart.dart";
 import "package:shared/shared.dart";
 import "package:uuid/uuid.dart";
 
-import "../../../clothing.dart";
+import "../../../server.dart";
 
 part "auth.impl.dart";
 

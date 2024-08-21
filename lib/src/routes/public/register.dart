@@ -1,7 +1,7 @@
 import "package:shared/shared.dart";
 import "package:shelf/shelf.dart";
 
-import "../../../clothing.dart";
+import "../../../server.dart";
 import "../../logic/auth/auth.dart";
 import "../../logic/utils/request_utils/request_utils.dart";
 
