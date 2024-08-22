@@ -4,8 +4,8 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
   const _ClothingDataSourceImpl(super.clothings) : super._();
 
   @override
-  Future<Clothing> createClothing(Clothing clothing) => clothings.insert(clothing.toMap()).then((_) => clothing);
-  
+  Future<Clothing> createClothing(Clothing clothing) => clothings.insert(clothing.toMongo()).then((_) => clothing);
+
   @override
   Future<Clothing> getClothing(ObjectId id) async {
     final Map<String, dynamic>? map = await clothings.findOne(where.id(id));
