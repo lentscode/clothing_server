@@ -5,11 +5,6 @@ class InvalidCredentialsException implements Exception {
   String toString() => "Invalid credentials";
 }
 
-class UserWithEmailAlreadyExistingException implements Exception {
-  @override
-  String toString() => "User with email already exists";
-}
-
 class ObjectNotFoundException implements Exception {
   const ObjectNotFoundException(this.type);
 
