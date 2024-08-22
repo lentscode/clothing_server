@@ -1,6 +1,5 @@
 import "package:mongo_dart/mongo_dart.dart";
 import "package:server/server.dart";
-import "package:server/src/config/credentials/credentials.dart";
 import "package:shared/shared.dart";
 import "package:test/test.dart";
 

@@ -2,8 +2,6 @@ import "package:shared/shared.dart";
 import "package:shelf/shelf.dart";
 
 import "../../../server.dart";
-import "../../logic/auth/auth.dart";
-import "../../logic/utils/request_utils/request_utils.dart";
 
 /// Registers the user on request.
 ///
