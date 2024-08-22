@@ -7,8 +7,10 @@ import "../../server.dart";
 
 export "credentials/credentials.dart";
 
+/// Service locator.
 final GetIt getIt = GetIt.instance;
 
+/// Executes code before server start.
 Future<void> config() async {
   final Db db = await Db.create("");
   await db.open();

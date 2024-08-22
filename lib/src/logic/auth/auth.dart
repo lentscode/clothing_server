@@ -11,13 +11,23 @@ import "../../../server.dart";
 
 part "auth.impl.dart";
 
+/// A class that contains logic for authentication and authorization.
 abstract class Auth {
   const Auth._(this.users);
 
+  /// Returns an instance of [Auth].
   factory Auth(DbCollection users) = _AuthImpl;
 
+  /// The collection of users in MongoDB.
   final DbCollection users;
 
+  /// Registers a user.
+  ///
+  /// It also returns a [User] object with user info.
   Future<User> register(String email, String password);
+
+  /// Logs in a user.
+  /// 
+  /// It also returns a [User] object with user info.
   Future<User> login(String email, String password);
 }
