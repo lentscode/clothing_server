@@ -4,7 +4,8 @@ import "package:get_it/get_it.dart";
 import "package:mongo_dart/mongo_dart.dart";
 
 import "../../server.dart";
-import "../logic/auth/auth.dart";
+
+export "credentials/credentials.dart";
 
 final GetIt getIt = GetIt.instance;
 
