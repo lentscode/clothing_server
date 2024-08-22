@@ -18,6 +18,6 @@ abstract class Auth {
 
   final DbCollection users;
 
-  Future<User> register(String email, String password, String name);
+  Future<User> register(String email, String password);
   Future<User> login(String email, String password);
 }

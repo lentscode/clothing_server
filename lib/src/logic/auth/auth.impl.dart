@@ -27,11 +27,11 @@ class _AuthImpl extends Auth {
   }
 
   @override
-  Future<User> register(String email, String password, String name) async {
+  Future<User> register(String email, String password) async {
     final Map<String, dynamic>? userWithEmail = await users.findOne(where.eq("email", email));
 
     if (userWithEmail != null) {
-      throw UserWithEmailAlreadyExistingException();
+      throw InvalidCredentialsException();
     }
 
     final String salt = _generateSalt();
@@ -42,7 +42,6 @@ class _AuthImpl extends Auth {
       email: email,
       hashPassword: hashedPassword,
       salt: salt,
-      name: name,
     );
 
     await users.insert(user.toMapComplete());
