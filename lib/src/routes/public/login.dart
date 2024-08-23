@@ -1,7 +1,4 @@
-import "package:shared/shared.dart";
-import "package:shelf/shelf.dart";
-
-import "../../../server.dart";
+part of "../routes.dart";
 
 /// Executes the login for a user.
 ///
@@ -27,7 +24,8 @@ Future<Response> login(Request req) async {
       return Response.badRequest(body: "Missing fields");
     }
 
-    final (User user, String cookie) = await getIt.get<Auth>().login(email, password);
+    final (User user, String cookie) =
+        await getIt.get<Auth>().login(email, password);
 
     return Response.ok(
       user.toJsonPublic(),

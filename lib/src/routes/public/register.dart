@@ -1,7 +1,4 @@
-import "package:shared/shared.dart";
-import "package:shelf/shelf.dart";
-
-import "../../../server.dart";
+part of "../routes.dart";
 
 /// Registers the user on request.
 ///
