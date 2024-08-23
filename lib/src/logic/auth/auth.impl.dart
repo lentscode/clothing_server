@@ -73,10 +73,14 @@ class _AuthImpl extends Auth {
   String _generateCookie(String sessionId, [DateTime? expires]) {
     String cookie = "sessionId=$sessionId; HttpOnly; SameSite=Strict";
 
+    int seconds;
+
     if (expires != null) {
-      final String expiresString = expires.toUtc().toIso8601String();
-      cookie += " Expires=$expiresString";
+      seconds = DateTime.now().difference(expires).inSeconds;
+    } else {
+      seconds = 0;
     }
+    cookie += "; MaxAge=$seconds";
 
     return cookie;
   }
