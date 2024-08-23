@@ -1,5 +1,6 @@
 import "dart:io";
 
+import "package:args/args.dart";
 import "package:server/server.dart";
 import "package:shelf/shelf.dart";
 import "package:shelf/shelf_io.dart";
@@ -21,7 +22,10 @@ final Router _router = Router()
   ..mount("/protected", _privateHandler);
 
 void main(List<String> args) async {
-  await config();
+  final ArgParser parser = ArgParser()..addFlag("test", negatable: false);
+  final ArgResults results = parser.parse(args);
+
+  await config(results["test"] ?? false);
   // Use any available host or container IP (usually `0.0.0.0`).
   final InternetAddress ip = InternetAddress.anyIPv4;
 

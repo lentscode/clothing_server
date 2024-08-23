@@ -11,8 +11,8 @@ export "credentials/credentials.dart";
 final GetIt getIt = GetIt.instance;
 
 /// Executes code before server start.
-Future<void> config() async {
-  final Db db = await Db.create(Credentials().mongoUri);
+Future<void> config([bool testing = false]) async {
+  final Db db = await Db.create(testing ? Credentials().mongoUriTest : Credentials().mongoUri);
   await db.open();
 
   final Auth auth = Auth(db.collection("users"));
