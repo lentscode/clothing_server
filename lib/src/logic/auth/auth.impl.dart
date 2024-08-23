@@ -4,7 +4,7 @@ class _AuthImpl extends Auth {
   const _AuthImpl(super.users) : super._();
 
   @override
-  Future<User> login(String email, String password) async {
+  Future<(User user, String cookie)> login(String email, String password) async {
     final Map<String, dynamic>? map = await users.findOne(where.eq("email", email));
 
     if (map == null) {
@@ -23,7 +23,9 @@ class _AuthImpl extends Auth {
 
     await users.updateOne(where.id(user.id), modify.set("sessionId", user.sessionId));
 
-    return user;
+    final String cookie = _generateCookie(user.sessionId!, DateTime.now().add(const Duration(days: 1)));
+
+    return (user, cookie);
   }
 
   @override
@@ -67,4 +69,26 @@ class _AuthImpl extends Auth {
   }
 
   String _sessionId() => const Uuid().v4();
+
+  String _generateCookie(String sessionId, [DateTime? expires]) {
+    String cookie = "sessionId=$sessionId; HttpOnly; SameSite=Strict";
+
+    if (expires != null) {
+      final String expiresString = expires.toUtc().toIso8601String();
+      cookie += " Expires=$expiresString";
+    }
+
+    return cookie;
+  }
+
+  @override
+  Future<User> checkSessionId(String cookie) async {
+    final Map<String, dynamic>? map = await users.findOne(where.eq("sessionId", cookie));
+
+    if (map == null) {
+      throw SessionIdNotValidException();
+    }
+
+    return User.fromMap(map);
+  }
 }

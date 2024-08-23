@@ -27,7 +27,9 @@ abstract class Auth {
   Future<User> register(String email, String password);
 
   /// Logs in a user.
-  /// 
+  ///
   /// It also returns a [User] object with user info.
-  Future<User> login(String email, String password);
+  Future<(User user, String cookie)> login(String email, String password);
+
+  Future<User> checkSessionId(String cookie);
 }
