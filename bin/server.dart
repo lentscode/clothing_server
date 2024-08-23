@@ -11,7 +11,9 @@ final Router _publicRouter = Router()
   ..post("/login", login)
   ..post("/register", register);
 
-final Router _privateRouter = Router()..post("/createClothing", createClothing);
+final Router _privateRouter = Router()
+  ..post("/clothing", createClothing)
+  ..delete("/clothing", deleteClothing);
 
 final Handler _privateHandler = const Pipeline()
     .addMiddleware(checkCookie())
