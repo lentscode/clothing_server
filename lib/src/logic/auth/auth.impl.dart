@@ -4,8 +4,10 @@ class _AuthImpl extends Auth {
   const _AuthImpl(super.users) : super._();
 
   @override
-  Future<(User user, String cookie)> login(String email, String password) async {
-    final Map<String, dynamic>? map = await users.findOne(where.eq("email", email));
+  Future<(User user, String cookie)> login(
+      String email, String password) async {
+    final Map<String, dynamic>? map =
+        await users.findOne(where.eq("email", email));
 
     if (map == null) {
       throw InvalidCredentialsException();
@@ -21,16 +23,19 @@ class _AuthImpl extends Auth {
 
     user.sessionId = _sessionId();
 
-    await users.updateOne(where.id(user.id), modify.set("sessionId", user.sessionId));
+    await users.updateOne(
+        where.id(user.id), modify.set("sessionId", user.sessionId));
 
-    final String cookie = _generateCookie(user.sessionId!, DateTime.now().add(const Duration(days: 1)));
+    final String cookie = _generateCookie(
+        user.sessionId!, DateTime.now().add(const Duration(days: 1)));
 
     return (user, cookie);
   }
 
   @override
   Future<User> register(String email, String password) async {
-    final Map<String, dynamic>? userWithEmail = await users.findOne(where.eq("email", email));
+    final Map<String, dynamic>? userWithEmail =
+        await users.findOne(where.eq("email", email));
 
     if (userWithEmail != null) {
       throw InvalidCredentialsException();
@@ -54,7 +59,8 @@ class _AuthImpl extends Auth {
   String _generateSalt([int length = 16]) {
     final Random random = Random.secure();
 
-    final List<int> values = List<int>.generate(length, (int i) => random.nextInt(256));
+    final List<int> values =
+        List<int>.generate(length, (int i) => random.nextInt(256));
     return base64UrlEncode(values);
   }
 
@@ -87,7 +93,8 @@ class _AuthImpl extends Auth {
 
   @override
   Future<User> checkSessionId(String cookie) async {
-    final Map<String, dynamic>? map = await users.findOne(where.eq("sessionId", cookie));
+    final Map<String, dynamic>? map =
+        await users.findOne(where.eq("sessionId", cookie));
 
     if (map == null) {
       throw SessionIdNotValidException();
