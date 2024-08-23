@@ -25,4 +25,6 @@ abstract class ClothingDataSource {
 
   /// Gets a list of [Clothing] that have a given [userId].
   Future<List<Clothing>> getClothingsOfUser(ObjectId userId);
+
+  Future<void> deleteClothing(ObjectId id, String userId);
 }

@@ -25,4 +25,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
 
     return maps.map(Clothing.fromMap).toList();
   }
+
+  @override
+  Future<void> deleteClothing(ObjectId id, String userId) => clothings.remove(where.id(id).eq("userId", userId));
 }
