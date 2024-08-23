@@ -27,9 +27,14 @@ Future<Response> login(Request req) async {
       return Response.badRequest(body: "Missing fields");
     }
 
-    final User user = await getIt.get<Auth>().login(email, password);
+    final (User user, String cookie) = await getIt.get<Auth>().login(email, password);
 
-    return Response.ok(user.toJsonPublic());
+    return Response.ok(
+      user.toJsonPublic(),
+      headers: <String, Object>{
+        "Set-Cookie": cookie,
+      },
+    );
   } on InvalidCredentialsException catch (e) {
     return Response.unauthorized(e.toString());
   } catch (e) {
