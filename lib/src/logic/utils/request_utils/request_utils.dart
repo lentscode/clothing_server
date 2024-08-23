@@ -19,5 +19,6 @@ abstract class RequestUtils {
   /// Returns the body of the [Request].
   Future<Map<String, dynamic>> getBody();
 
+  /// Returns the session ID from the [Request].
   String getSessionId();
 }

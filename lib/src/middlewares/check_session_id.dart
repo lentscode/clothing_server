@@ -1,5 +1,6 @@
 part of "middlewares.dart";
 
+/// A middleware that checks if a session ID inside the cookies is valid.
 Middleware checkCookie() => (Handler innerHandler) => (Request req) async {
       try {
         final String sessionId = RequestUtils(req).getSessionId();

@@ -31,5 +31,6 @@ abstract class Auth {
   /// It also returns a [User] object with user info.
   Future<(User user, String cookie)> login(String email, String password);
 
+  /// Checks if a session ID is valid.
   Future<User> checkSessionId(String cookie);
 }

@@ -1,5 +1,14 @@
 part of "../routes.dart";
 
+/// Creates a clothing.
+/// 
+/// It needs the following fields:
+/// - name (name of the clothing, **required**)
+/// - type (type of the clothing, **required**)
+/// - color (color of the clothing, **required**)
+/// - brand (brand of the clothing)
+/// 
+/// If the fields are not provided, it will return a 400 status code.
 Future<Response> createClothing(Request req) async {
   final User user = req.context["user"] as User;
 

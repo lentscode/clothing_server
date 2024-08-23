@@ -18,11 +18,13 @@ class ObjectNotFoundException implements Exception {
   String toString() => "$type not found";
 }
 
+/// Exception thrown when a session ID is not valid.
 class SessionIdNotValidException implements Exception {
   @override
   String toString() => "Session ID not valid";
 }
 
+/// Exception thrown when a cookie is not given or not found.
 class CookieNotFoundException implements Exception {
   @override
   String toString() => "Cookie not found";
