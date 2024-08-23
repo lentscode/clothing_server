@@ -17,3 +17,13 @@ class ObjectNotFoundException implements Exception {
   @override
   String toString() => "$type not found";
 }
+
+class SessionIdNotValidException implements Exception {
+  @override
+  String toString() => "Session ID not valid";
+}
+
+class CookieNotFoundException implements Exception {
+  @override
+  String toString() => "Cookie not found";
+}
