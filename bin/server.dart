@@ -12,11 +12,14 @@ final Router _publicRouter = Router()
 
 final Router _privateRouter = Router();
 
+final Handler _privateHandler = const Pipeline().addMiddleware(checkCookie()).addHandler(_privateRouter.call);
+
 final Router _router = Router()
   ..mount("/public", _publicRouter.call)
-  ..mount("/protected", _privateRouter.call);
+  ..mount("/protected", _privateHandler);
 
 void main(List<String> args) async {
+  await config();
   // Use any available host or container IP (usually `0.0.0.0`).
   final InternetAddress ip = InternetAddress.anyIPv4;
 
