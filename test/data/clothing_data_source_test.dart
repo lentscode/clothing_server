@@ -84,5 +84,9 @@ void main() {
         expect(clothings.length, 2);
       });
     });
+
+    group('deleteClothing()', () {
+      test('Success: should delete clothing from MongoDB', () async {});
+    });
   });
 }
