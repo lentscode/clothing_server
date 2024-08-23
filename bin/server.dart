@@ -10,9 +10,11 @@ final Router _publicRouter = Router()
   ..post("/login", login)
   ..post("/register", register);
 
-final Router _privateRouter = Router();
+final Router _privateRouter = Router()..post("/createClothing", createClothing);
 
-final Handler _privateHandler = const Pipeline().addMiddleware(checkCookie()).addHandler(_privateRouter.call);
+final Handler _privateHandler = const Pipeline()
+    .addMiddleware(checkCookie())
+    .addHandler(_privateRouter.call);
 
 final Router _router = Router()
   ..mount("/public", _publicRouter.call)
@@ -24,7 +26,8 @@ void main(List<String> args) async {
   final InternetAddress ip = InternetAddress.anyIPv4;
 
   // Configure a pipeline that logs requests.
-  final Handler handler = const Pipeline().addMiddleware(logRequests()).addHandler(_router.call);
+  final Handler handler =
+      const Pipeline().addMiddleware(logRequests()).addHandler(_router.call);
 
   // For running in containers, we respect the PORT environment variable.
   final int port = int.parse(Platform.environment["PORT"] ?? "8080");
