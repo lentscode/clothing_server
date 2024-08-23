@@ -16,8 +16,10 @@ Future<void> config() async {
   await db.open();
 
   final Auth auth = Auth(db.collection("users"));
-  final ClothingDataSource clothingDataSource = ClothingDataSource(db.collection("clothings"));
-  final OutfitDataSource outfitDataSource = OutfitDataSource(db.collection("outfits"));
+  final ClothingDataSource clothingDataSource =
+      ClothingDataSource(db.collection("clothings"));
+  final OutfitDataSource outfitDataSource =
+      OutfitDataSource(db.collection("outfits"));
 
   getIt.registerSingleton<Auth>(auth);
   getIt.registerSingleton<ClothingDataSource>(clothingDataSource);

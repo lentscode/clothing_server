@@ -19,7 +19,7 @@ abstract class ClothingDataSource {
   Future<Clothing> createClothing(Clothing clothing);
 
   /// Gets a [Clothing] with a given [id].
-  /// 
+  ///
   /// Throws an [ObjectNotFoundException] if no clothing with the given [id] was found.
   Future<Clothing> getClothing(ObjectId id);
 

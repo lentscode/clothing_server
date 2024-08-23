@@ -4,7 +4,8 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
   const _ClothingDataSourceImpl(super.clothings) : super._();
 
   @override
-  Future<Clothing> createClothing(Clothing clothing) => clothings.insert(clothing.toMongo()).then((_) => clothing);
+  Future<Clothing> createClothing(Clothing clothing) =>
+      clothings.insert(clothing.toMongo()).then((_) => clothing);
 
   @override
   Future<Clothing> getClothing(ObjectId id) async {
@@ -19,7 +20,8 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
 
   @override
   Future<List<Clothing>> getClothingsOfUser(ObjectId userId) async {
-    final Stream<Map<String, dynamic>> maps = clothings.find(where.eq("userId", userId));
+    final Stream<Map<String, dynamic>> maps =
+        clothings.find(where.eq("userId", userId));
 
     return maps.map(Clothing.fromMap).toList();
   }
