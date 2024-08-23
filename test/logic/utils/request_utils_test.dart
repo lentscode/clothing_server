@@ -24,7 +24,8 @@ void main() {
 
     group("getSessionId", () {
       test("Success: should return a sessionId from a cookie", () {
-        final String cookie = "sessionId=1234; HttpOnly; Secure; SameSite=Strict";
+        final String cookie =
+            "sessionId=1234; HttpOnly; Secure; SameSite=Strict";
 
         final Request req = Request(
           "GET",
@@ -39,13 +40,16 @@ void main() {
         expect(sessionId, "1234");
       });
 
-      test("Failure: if cookie is not present in request, should throw an Exception", () {
+      test(
+          "Failure: if cookie is not present in request, should throw an Exception",
+          () {
         final Request req = Request(
           "GET",
           Uri.parse("http://localhost/"),
         );
 
-        expect(() => RequestUtils(req).getSessionId(), throwsA(isA<CookieNotFoundException>()));
+        expect(() => RequestUtils(req).getSessionId(),
+            throwsA(isA<CookieNotFoundException>()));
       });
     });
   });

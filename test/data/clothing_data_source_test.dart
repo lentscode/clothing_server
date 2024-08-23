@@ -20,6 +20,7 @@ void main() {
       "name": "T-Shirt",
       "type": "shirt",
       "userId": userId,
+      "color": "white",
     });
   });
 
@@ -38,6 +39,7 @@ void main() {
           name: "name",
           userId: userId,
           type: ClothingType.shirt,
+          color: "white",
         );
 
         final Clothing newClothing = await clothingDataSource.createClothing(clothing);
@@ -74,6 +76,7 @@ void main() {
           "name": "T-Shirt2",
           "type": "shirt",
           "userId": userId,
+          "color": "white",
         });
 
         final List<Clothing> clothings = await clothingDataSource.getClothingsOfUser(userId);

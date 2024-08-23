@@ -19,7 +19,8 @@ void main() {
   });
   group("Auth", () {
     group("register()", () {
-      test("Success: should create a user in the db and return a User", () async {
+      test("Success: should create a user in the db and return a User",
+          () async {
         final Auth auth = Auth(db.collection("users"));
 
         final User result = await auth.register(email, password);
@@ -27,13 +28,16 @@ void main() {
         expect(result.email, email);
         expect(result.hashPassword == password, false);
 
-        final Map<String, dynamic>? dbCheck = await db.collection("users").findOne(where.id(result.id));
+        final Map<String, dynamic>? dbCheck =
+            await db.collection("users").findOne(where.id(result.id));
 
         expect(dbCheck, isNotNull);
         expect(dbCheck!["_id"], result.id);
       });
 
-      test("Failure: creating a user with an already taken email should throw a InvalidCredentialsException", () async {
+      test(
+          "Failure: creating a user with an already taken email should throw a InvalidCredentialsException",
+          () async {
         final Auth auth = Auth(db.collection("users"));
 
         await db.collection("users").insertOne(<String, dynamic>{
@@ -48,7 +52,8 @@ void main() {
     });
 
     group("login()", () {
-      test("Success: should create sessionId in Db and return a User object", () async {
+      test("Success: should create sessionId in Db and return a User object",
+          () async {
         final Auth auth = Auth(db.collection("users"));
 
         await auth.register(email, password);
@@ -59,12 +64,15 @@ void main() {
         expect(result.sessionId, isNotNull);
         expect(cookie, contains(result.sessionId));
 
-        final Map<String, dynamic>? dbCheck = await db.collection("users").findOne(where.id(result.id));
+        final Map<String, dynamic>? dbCheck =
+            await db.collection("users").findOne(where.id(result.id));
 
         expect(dbCheck!["sessionId"], result.sessionId);
       });
 
-      test("Failure: user not found, should throw a InvalidCredentialsException", () {
+      test(
+          "Failure: user not found, should throw a InvalidCredentialsException",
+          () {
         final Auth auth = Auth(db.collection("users"));
 
         expect(
@@ -73,7 +81,9 @@ void main() {
         );
       });
 
-      test("Failure: login with wrong password should throw a InvalidCredentialsException", () async {
+      test(
+          "Failure: login with wrong password should throw a InvalidCredentialsException",
+          () async {
         final Auth auth = Auth(db.collection("users"));
 
         await auth.register(email, password);
@@ -86,7 +96,8 @@ void main() {
     });
 
     group("checkSessionId", () {
-      test("Success: found user with sessionId, should return the user doc", () async {
+      test("Success: found user with sessionId, should return the user doc",
+          () async {
         final Map<String, dynamic> map = <String, dynamic>{
           "_id": ObjectId(),
           "email": email,
@@ -104,10 +115,13 @@ void main() {
         expect(result.email, email);
       });
 
-      test("Failure: not found user, should throw an InvalidCredentialsException", () async {
+      test(
+          "Failure: not found user, should throw an InvalidCredentialsException",
+          () async {
         final Auth auth = Auth(db.collection("users"));
 
-        expect(() => auth.checkSessionId("sessionId"), throwsA(isA<SessionIdNotValidException>()));
+        expect(() => auth.checkSessionId("sessionId"),
+            throwsA(isA<SessionIdNotValidException>()));
       });
     });
   });
