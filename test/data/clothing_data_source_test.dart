@@ -19,7 +19,7 @@ void main() {
       "_id": id,
       "name": "T-Shirt",
       "type": "shirt",
-      "userId": userId,
+      "userId": userId.oid,
       "color": "white",
     });
   });
@@ -82,12 +82,12 @@ void main() {
           "_id": ObjectId(),
           "name": "T-Shirt2",
           "type": "shirt",
-          "userId": userId,
+          "userId": userId.oid,
           "color": "white",
         });
 
         final List<Clothing> clothings =
-            await clothingDataSource.getClothingsOfUser(userId);
+            await clothingDataSource.getClothingsOfUser(userId.oid);
 
         expect(clothings.length, 2);
       });
@@ -104,6 +104,59 @@ void main() {
             await db.collection("clothings").findOne(where.id(id));
 
         expect(map, isNull);
+      });
+
+      test("Failure: wrong userId should not delete document", () async {
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
+
+        await clothingDataSource.deleteClothing(id, ObjectId().oid);
+
+        final Map<String, dynamic>? map =
+            await db.collection("clothings").findOne(where.id(id));
+
+        expect(map, isNotNull);
+      });
+    });
+
+    group("updateClothing()", () {
+      test("Success: should update doc in DB and return updated object",
+          () async {
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
+
+        await clothingDataSource.updateClothing(
+          id,
+          userId.oid,
+          name: "newName",
+          color: "black",
+          brand: "nike",
+        );
+
+        final Map<String, dynamic>? map =
+            await db.collection("clothings").findOne(where.id(id));
+
+        expect(map!["name"], "newName");
+        expect(map["color"], "black");
+        expect(map["brand"], "nike");
+      });
+
+      test(
+          "Failure: clothing does not belongs to user, should throw a ObjectNotFoundException",
+          () async {
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
+
+        expect(
+          () => clothingDataSource.updateClothing(
+            id,
+            "wrongUserId",
+            name: "newName",
+            color: "black",
+            brand: "nike",
+          ),
+          throwsA(isA<ObjectNotFoundException>()),
+        );
       });
     });
   });
