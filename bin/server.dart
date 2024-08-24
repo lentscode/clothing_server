@@ -12,11 +12,11 @@ final Router _publicRouter = Router()
   ..post("/register", register);
 
 final Router _privateRouter = Router()
-  ..post("/clothing", createClothing)
-  ..delete("/clothing", deleteClothing);
+  ..post("/clothings", createClothing)
+  ..delete("/clothings", deleteClothing);
 
 final Handler _privateHandler = const Pipeline()
-    .addMiddleware(checkCookie())
+    .addMiddleware(checkSessionId())
     .addHandler(_privateRouter.call);
 
 final Router _router = Router()
