@@ -25,7 +25,7 @@ void main() {
     group("getSessionId", () {
       test("Success: should return a sessionId from a cookie", () {
         final String cookie =
-            "sessionId=1234; HttpOnly; Secure; SameSite=Strict";
+            "sessionId=1234; HttpOnly; Secure; SameSite=Strict;";
 
         final Request req = Request(
           "GET",

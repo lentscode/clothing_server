@@ -31,7 +31,8 @@ void main() {
   group("ClothingDataSource", () {
     group("createClothing()", () {
       test("Success: should create a Clothing object in DB", () async {
-        final ClothingDataSource clothingDataSource = ClothingDataSource(db.collection("clothings"));
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
         final ObjectId id = ObjectId();
 
         final Clothing clothing = Clothing(
@@ -42,11 +43,13 @@ void main() {
           color: "white",
         );
 
-        final Clothing newClothing = await clothingDataSource.createClothing(clothing);
+        final Clothing newClothing =
+            await clothingDataSource.createClothing(clothing);
 
         expect(newClothing.id, clothing.id);
 
-        final Map<String, dynamic>? map = await db.collection("clothings").findOne(where.id(id));
+        final Map<String, dynamic>? map =
+            await db.collection("clothings").findOne(where.id(id));
 
         expect(map, isNotNull);
         expect(map!["_id"], id);
@@ -54,7 +57,8 @@ void main() {
     });
     group("getClothing()", () {
       test("Success: should return a Clothing object", () async {
-        final ClothingDataSource clothingDataSource = ClothingDataSource(db.collection("clothings"));
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
 
         final Clothing clothing = await clothingDataSource.getClothing(id);
 
@@ -62,14 +66,17 @@ void main() {
       });
 
       test("Failure: should throw a ObjectNotFoundException", () async {
-        final ClothingDataSource clothingDataSource = ClothingDataSource(db.collection("clothings"));
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
 
-        expect(() async => await clothingDataSource.getClothing(ObjectId()), throwsA(isA<ObjectNotFoundException>()));
+        expect(() async => await clothingDataSource.getClothing(ObjectId()),
+            throwsA(isA<ObjectNotFoundException>()));
       });
     });
     group("getClothingsOfUser()", () {
       test("Success: should return a list of Clothing", () async {
-        final ClothingDataSource clothingDataSource = ClothingDataSource(db.collection("clothings"));
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
 
         db.collection("clothings").insert(<String, Object>{
           "_id": ObjectId(),
@@ -79,14 +86,25 @@ void main() {
           "color": "white",
         });
 
-        final List<Clothing> clothings = await clothingDataSource.getClothingsOfUser(userId);
+        final List<Clothing> clothings =
+            await clothingDataSource.getClothingsOfUser(userId);
 
         expect(clothings.length, 2);
       });
     });
 
-    group('deleteClothing()', () {
-      test('Success: should delete clothing from MongoDB', () async {});
+    group("deleteClothing()", () {
+      test("Success: should delete clothing from MongoDB", () async {
+        final ClothingDataSource clothingDataSource =
+            ClothingDataSource(db.collection("clothings"));
+
+        await clothingDataSource.deleteClothing(id, userId.oid);
+
+        final Map<String, dynamic>? map =
+            await db.collection("clothings").findOne(where.id(id));
+
+        expect(map, isNull);
+      });
     });
   });
 }
