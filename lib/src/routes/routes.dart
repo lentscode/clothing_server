@@ -8,5 +8,7 @@ import "../../server.dart";
 
 part "protected/create_clothing.dart";
 part "protected/delete_clothing.dart";
+part "protected/get_clothings_of_user.dart";
+part "protected/update_clothing.dart";
 part "public/login.dart";
 part "public/register.dart";
