@@ -1,4 +1,4 @@
-part of "../routes.dart";
+part of "../../routes.dart";
 
 Future<Response> updateClothing(Request req) async {
   try {
