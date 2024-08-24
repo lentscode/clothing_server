@@ -19,7 +19,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
   }
 
   @override
-  Future<List<Clothing>> getClothingsOfUser(ObjectId userId) async {
+  Future<List<Clothing>> getClothingsOfUser(String userId) async {
     final Stream<Map<String, dynamic>> maps =
         clothings.find(where.eq("userId", userId));
 

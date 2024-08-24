@@ -5,7 +5,7 @@ Future<Response> getClothingsOfUser(Request req) async {
     final User user = req.context["user"] as User;
 
     final List<Clothing> clothings =
-        await getIt.get<ClothingDataSource>().getClothingsOfUser(user.id);
+        await getIt.get<ClothingDataSource>().getClothingsOfUser(user.id.oid);
 
     return Response.ok(clothings.toJson());
   } catch (e) {
