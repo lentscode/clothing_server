@@ -13,7 +13,9 @@ final Router _publicRouter = Router()
 
 final Router _privateRouter = Router()
   ..post("/clothings", createClothing)
-  ..delete("/clothings", deleteClothing);
+  ..get("/clothings", getClothingsOfUser)
+  ..delete("/clothings", deleteClothing)
+  ..patch("/clothings", updateClothing);
 
 final Handler _privateHandler = const Pipeline()
     .addMiddleware(checkSessionId())
