@@ -28,4 +28,13 @@ abstract class ClothingDataSource {
 
   /// Deletes a [Clothing] with a given [id].
   Future<void> deleteClothing(ObjectId id, String userId);
+
+  Future<Clothing> updateClothing(
+    ObjectId id,
+    String userId, {
+    String? name,
+    String? type,
+    String? color,
+    String? brand,
+  });
 }

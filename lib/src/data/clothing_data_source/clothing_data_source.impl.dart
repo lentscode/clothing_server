@@ -27,5 +27,42 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
   }
 
   @override
-  Future<void> deleteClothing(ObjectId id, String userId) => clothings.remove(where.id(id).eq("userId", userId));
+  Future<void> deleteClothing(ObjectId id, String userId) =>
+      clothings.remove(where.id(id).eq("userId", userId));
+
+  @override
+  Future<Clothing> updateClothing(
+    ObjectId id,
+    String userId, {
+    String? name,
+    String? type,
+    String? color,
+    String? brand,
+  }) async {
+    final Map<String, dynamic>? map =
+        await clothings.findOne(where.id(id).eq("userId", userId));
+
+    if (map == null) {
+      throw const ObjectNotFoundException("Clothing");
+    }
+
+    final Clothing clothing = Clothing.fromMap(map);
+
+    final Clothing updatedClothing = clothing.copyWith(
+      name: name,
+      type: ClothingType.values.firstWhere(
+        (ClothingType clothingType) => clothingType.name == type,
+        orElse: () => clothing.type,
+      ),
+      color: color,
+      brand: brand,
+    );
+
+    await clothings.update(
+      where.id(id).eq("userId", userId),
+      updatedClothing.toMongo(),
+    );
+
+    return updatedClothing;
+  }
 }
