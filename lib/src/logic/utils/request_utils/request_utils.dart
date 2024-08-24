@@ -1,6 +1,10 @@
+import "dart:async";
 import "dart:convert";
+import "dart:io";
+import "dart:typed_data";
 
 import "package:shelf/shelf.dart";
+import "package:shelf_multipart/shelf_multipart.dart";
 
 import "../../../../server.dart";
 
@@ -21,4 +25,6 @@ abstract class RequestUtils {
 
   /// Returns the session ID from the [Request].
   String getSessionId();
+
+  Future<(Map<String, dynamic> data, File image)> parseFormData();
 }
