@@ -12,23 +12,28 @@ part of "../../routes.dart";
 Future<Response> createClothing(Request req) async {
   final User user = req.context["user"] as User;
 
-  final Map<String, dynamic> body = await RequestUtils(req).getBody();
+  final (Map<String, dynamic> data, File? image) =
+      await RequestUtils(req).parseFormData();
 
-  final String? name = body["name"];
-  final String? type = body["type"];
-  final String? color = body["color"];
-  final String? brand = body["brand"];
+  if (data["name"] == null || data["type"] == null || data["color"] == null) {
+    return Response.badRequest(body: "Missing required fields");
+  }
 
-  if (name == null || type == null || color == null) {
-    return Response.badRequest(body: "Missing fields");
+  String? imageUrl;
+
+  if (image != null) {
+    imageUrl =
+        await getIt.get<CloudStorage>().uploadImage(image, user, "clothings");
   }
 
   final Clothing clothing = Clothing.create(
-    name: name,
-    userId: user.oid,
-    type: ClothingType.values.firstWhere((ClothingType e) => e.name == type),
-    color: color,
-    brand: brand,
+    name: data["name"],
+    userId: user.id.oid,
+    type: ClothingType.values
+        .firstWhere((ClothingType e) => e.name == data["type"]),
+    color: data["color"],
+    brand: data["brand"],
+    imageUrl: imageUrl,
   );
 
   await getIt.get<ClothingDataSource>().createClothing(clothing);
