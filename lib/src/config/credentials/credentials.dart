@@ -12,4 +12,6 @@ abstract class Credentials {
 
   /// Returns the API key to MongoDB test.
   String get mongoUriTest;
+
+  Map<String, String> get googleServiceAccount;
 }
