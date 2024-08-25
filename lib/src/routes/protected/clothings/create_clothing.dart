@@ -28,7 +28,7 @@ Future<Response> createClothing(Request req) async {
 
   final Clothing clothing = Clothing.create(
     name: data["name"],
-    userId: user.id.oid,
+    userId: user.id,
     type: ClothingType.values
         .firstWhere((ClothingType e) => e.name == data["type"]),
     color: data["color"],
@@ -36,7 +36,7 @@ Future<Response> createClothing(Request req) async {
     imageUrl: imageUrl,
   );
 
-  await getIt.get<ClothingDataSource>().createClothing(clothing);
+  getIt.get<ClothingDataSource>().createClothing(clothing);
 
-  return Response.ok(clothing.toJson());
+  return ResponseUtils().composeMultipartResponse(user.oid, data: clothing.toMap(), image: image);
 }
