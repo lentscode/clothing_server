@@ -14,15 +14,18 @@ final GetIt getIt = GetIt.instance;
 
 /// Executes code before server start.
 Future<void> config([bool testing = false]) async {
-  final Db db = await Db.create(
-      testing ? Credentials().mongoUriTest : Credentials().mongoUri);
-  await db.open();
-
   final ServiceAccountCredentials googleCredentials =
       ServiceAccountCredentials.fromJson(Credentials().googleServiceAccount);
 
-  final AutoRefreshingAuthClient googleClient = await clientViaServiceAccount(
-      googleCredentials, <String>[StorageApi.devstorageReadWriteScope]);
+  final Future<Db> dbFuture =
+      Db.create(testing ? Credentials().mongoUriTest : Credentials().mongoUri)..then((Db db) => db.open());
+
+  final Future<AutoRefreshingAuthClient> googleClientFuture =
+      clientViaServiceAccount(
+          googleCredentials, <String>[StorageApi.devstorageReadWriteScope]);
+
+  final (Db db, AutoRefreshingAuthClient googleClient) =
+      await (dbFuture, googleClientFuture).wait;
 
   final StorageApi storageApi = StorageApi(googleClient);
 
@@ -30,7 +33,7 @@ Future<void> config([bool testing = false]) async {
   final ClothingDataSource clothingDataSource =
       ClothingDataSource(db.collection("clothings"));
   final OutfitDataSource outfitDataSource =
-      OutfitDataSource(db.collection("outfits"));
+      OutfitDataSource(db.collection("outfits"), clothingDataSource);
 
   final CloudStorage cloudStorage = CloudStorage(storageApi);
 
