@@ -10,7 +10,7 @@ class _CloudStorageImpl extends CloudStorage {
     final Uint8List imageBytes = await image.readAsBytes();
 
     final Media media = Media(
-      Stream.fromIterable(<List<int>>[imageBytes]),
+      Stream<List<int>>.fromIterable(<List<int>>[imageBytes]),
       imageBytes.length,
     );
 
