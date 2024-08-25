@@ -41,7 +41,7 @@ void main() {
       5,
       (int index) => Clothing.create(
         name: "name$index",
-        userId: user.oid,
+        userId: user.id,
         type: ClothingType.shirt,
         color: "white",
       ),

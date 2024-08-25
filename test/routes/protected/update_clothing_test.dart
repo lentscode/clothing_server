@@ -41,7 +41,7 @@ void main() {
 
     clothing = Clothing.create(
       name: "name",
-      userId: user.oid,
+      userId: user.id,
       type: ClothingType.shirt,
       color: "white",
     );
