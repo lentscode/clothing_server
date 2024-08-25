@@ -26,5 +26,5 @@ abstract class RequestUtils {
   /// Returns the session ID from the [Request].
   String getSessionId();
 
-  Future<(Map<String, dynamic> data, File image)> parseFormData();
+  Future<(Map<String, dynamic> data, File? image)> parseFormData();
 }

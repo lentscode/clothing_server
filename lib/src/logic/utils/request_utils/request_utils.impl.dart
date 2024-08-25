@@ -28,16 +28,20 @@ class _RequestUtilsImpl extends RequestUtils {
   }
 
   @override
-  Future<(Map<String, dynamic> data, File image)> parseFormData() async {
+  Future<(Map<String, dynamic> data, File? image)> parseFormData() async {
     final Map<String, dynamic> formData = await _getFormData();
 
-    final Multipart imagePart = formData["image"] as Multipart;
+    final Multipart? imagePart = formData["image"] as Multipart?;
     final Multipart dataPart = formData["data"] as Multipart;
 
     final Map<String, dynamic> data = jsonDecode(await dataPart.readString());
 
-    final File image = await imagePart.readBytes().then(
-        (Uint8List bytes) => File("${data["name"]}.jpg").writeAsBytes(bytes));
+    File? image;
+
+    if (imagePart != null) {
+      image = await imagePart.readBytes().then(
+          (Uint8List bytes) => File("${data["name"]}.jpg").writeAsBytes(bytes));
+    }
 
     return (data, image);
   }
