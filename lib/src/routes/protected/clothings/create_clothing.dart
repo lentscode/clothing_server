@@ -38,5 +38,5 @@ Future<Response> createClothing(Request req) async {
 
   getIt.get<ClothingDataSource>().createClothing(clothing);
 
-  return ResponseUtils().composeMultipartResponse(user.oid, data: clothing.toMap(), image: image);
+  return Response.ok(clothing.toJson());
 }
