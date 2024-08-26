@@ -56,6 +56,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
       ),
       color: color,
       brand: brand,
+      lastUpdate: DateTime.now(),
     );
 
     await clothings.update(
