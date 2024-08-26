@@ -41,6 +41,7 @@ void main() {
           userId: userId,
           type: ClothingType.shirt,
           color: "white",
+          lastUpdate: DateTime.now(),
         );
 
         final Clothing newClothing =
