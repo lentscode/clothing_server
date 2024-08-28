@@ -37,7 +37,8 @@ void main() {
           () async {
         final CloudStorage cloudStorage = CloudStorage(storageApi);
 
-        final String? url = await cloudStorage.uploadImage(
+        final (String? url, String? objectLink) =
+            await cloudStorage.uploadImage(
           image,
           user,
           "image",
@@ -46,8 +47,7 @@ void main() {
         );
 
         expect(url, isNotNull);
-
-        print(url);
+        expect(objectLink, isNotNull);
       });
     });
   });

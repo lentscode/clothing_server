@@ -37,7 +37,7 @@ void main() {
       },
     );
 
-    clothings = List.generate(
+    clothings = List<Clothing>.generate(
       5,
       (int index) => Clothing.create(
         name: "name$index",

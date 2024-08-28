@@ -123,6 +123,27 @@ void main() {
         expect(() => auth.checkSessionId("sessionId"),
             throwsA(isA<SessionIdNotValidException>()));
       });
+
+      test(
+          "Failure: sessionId expired, should throw a SessionIdNotValidException",
+          () async {
+        final Map<String, dynamic> map = <String, dynamic>{
+          "_id": ObjectId(),
+          "email": email,
+          "sessionId": "sessionId",
+          "hashPassword": "hashPassword",
+          "salt": "salt",
+          "sessionExpiration": DateTime.now()
+              .subtract(const Duration(seconds: 1)),
+        };
+
+        await db.collection("users").insertOne(map);
+
+        final Auth auth = Auth(db.collection("users"));
+
+        expect(() => auth.checkSessionId("sessionId"),
+            throwsA(isA<SessionIdNotValidException>()));
+      });
     });
   });
 }

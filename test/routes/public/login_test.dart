@@ -47,10 +47,10 @@ void main() {
       );
 
       final Response res = await login(req);
+      expect(res.statusCode, 200);
 
       final dynamic body = jsonDecode(await res.readAsString());
 
-      expect(res.statusCode, 200);
       expect(body["_id"], isA<String>());
       expect(body["email"], email);
     });

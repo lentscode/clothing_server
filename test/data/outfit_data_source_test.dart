@@ -14,7 +14,7 @@ void main() {
   setUp(() async {
     db = await openTestDb(Credentials().mongoUriTest);
     userId = ObjectId();
-    clothings = List.generate(
+    clothings = List<Clothing>.generate(
       3,
       (int index) => Clothing.create(
         name: "name$index",

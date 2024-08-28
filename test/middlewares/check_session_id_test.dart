@@ -31,6 +31,8 @@ void main() {
       "hashPassword": "hashPassword",
       "salt": "salt",
       "sessionId": sessionId,
+      "sessionExpiration":
+          DateTime.now().add(const Duration(seconds: 3)),
     });
   });
 
@@ -70,6 +72,22 @@ void main() {
 
     test("Failure: missing cookie should return 401 response", () async {
       final Request req = Request("POST", Uri.parse(url));
+
+      final Response res = await handler(req);
+
+      expect(res.statusCode, 401);
+    });
+
+    test("Failure: expired cookie should return 401 response", () async {
+      final Request req = Request(
+        "POST",
+        Uri.parse(url),
+        headers: <String, Object>{
+          "Cookie": "sessionId=$sessionId",
+        },
+      );
+
+      await Future<void>.delayed(const Duration(seconds: 4));
 
       final Response res = await handler(req);
 

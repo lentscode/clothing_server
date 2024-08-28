@@ -21,6 +21,7 @@ void main() {
       "type": "shirt",
       "userId": userId.oid,
       "color": "white",
+      "lastUpdate": DateTime.now(),
     });
   });
 
@@ -85,6 +86,7 @@ void main() {
           "type": "shirt",
           "userId": userId.oid,
           "color": "white",
+          "lastUpdate": DateTime.now(),
         });
 
         final List<Clothing> clothings =
