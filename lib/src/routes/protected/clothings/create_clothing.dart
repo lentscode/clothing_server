@@ -20,9 +20,10 @@ Future<Response> createClothing(Request req) async {
   }
 
   String? imageUrl;
+  String? objectLink;
 
   if (image != null) {
-    imageUrl =
+    (imageUrl, objectLink) =
         await getIt.get<CloudStorage>().uploadImage(image, user, "clothings");
   }
 
@@ -34,6 +35,8 @@ Future<Response> createClothing(Request req) async {
     color: data["color"],
     brand: data["brand"],
     imageUrl: imageUrl,
+    imageExpiration: DateTime.now().add(const Duration(days: 7)),
+    objectLink: objectLink,
   );
 
   getIt.get<ClothingDataSource>().createClothing(clothing);
