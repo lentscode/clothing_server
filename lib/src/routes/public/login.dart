@@ -35,7 +35,8 @@ Future<Response> login(Request req) async {
     );
   } on InvalidCredentialsException catch (e) {
     return Response.unauthorized(e.toString());
-  } catch (e) {
+  } catch (e, s) {
+    getIt.get<Logger>().e(e, stackTrace: s);
     return Response.internalServerError(body: e.toString());
   }
 }

@@ -8,7 +8,8 @@ Future<Response> getClothingsOfUser(Request req) async {
         await getIt.get<ClothingDataSource>().getClothingsOfUser(user.id.oid);
 
     return Response.ok(clothings.toJson());
-  } catch (e) {
+  } catch (e, s) {
+    getIt.get<Logger>().e(e, stackTrace: s);
     return Response.internalServerError(body: e.toString());
   }
 }

@@ -25,7 +25,8 @@ Future<Response> register(Request req) async {
     return Response.ok(user.toJsonPublic());
   } on InvalidCredentialsException catch (e) {
     return Response.forbidden(e.toString());
-  } catch (e) {
+  } catch (e, s) {
+    getIt.get<Logger>().e(e, stackTrace: s);
     return Response.internalServerError(body: e.toString());
   }
 }
