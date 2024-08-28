@@ -23,7 +23,7 @@ final Handler _privateHandler = const Pipeline()
     .addHandler(_privateRouter.call);
 
 final Router _router = Router()
-  ..mount("/public", _publicRouter.call)
+  ..mount("/", _publicRouter.call)
   ..mount("/protected", _privateHandler);
 
 void main(List<String> args) async {
