@@ -26,11 +26,22 @@ abstract class CloudStorage {
 
   final StorageApi _api;
 
-  Future<String?> uploadImage(
+  Future<(String? imageUrl, String? objectLink)> uploadImage(
     File image,
     User user,
     String imageType, {
     String bucketName = "clothing-test",
     bool deleteFile = true,
+  });
+
+  String generateSignedUrl(
+    Map<String, String> serviceAccount,
+    String bucketName,
+    String objectName, {
+    String? subresource,
+    int expiration = 604800,
+    String httpMethod = "GET",
+    Map<String, String>? queryParameters,
+    Map<String, String>? headers,
   });
 }

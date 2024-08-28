@@ -4,7 +4,7 @@ class _CloudStorageImpl extends CloudStorage {
   _CloudStorageImpl(super._api) : super._();
 
   @override
-  Future<String?> uploadImage(
+  Future<(String? imageUrl, String? objectLink)> uploadImage(
     File image,
     User user,
     String imageType, {
@@ -28,7 +28,7 @@ class _CloudStorageImpl extends CloudStorage {
       uploadMedia: media,
     );
 
-    final String signedUrl = _generateSignedUrl(
+    final String signedUrl = generateSignedUrl(
       Credentials().googleServiceAccount,
       "clothing-app",
       objectLink.name!,
@@ -38,10 +38,11 @@ class _CloudStorageImpl extends CloudStorage {
       image.delete();
     }
 
-    return signedUrl;
+    return (signedUrl, objectLink.name);
   }
 
-  String _generateSignedUrl(
+  @override
+  String generateSignedUrl(
     Map<String, String> serviceAccount,
     String bucketName,
     String objectName, {
@@ -52,7 +53,6 @@ class _CloudStorageImpl extends CloudStorage {
     Map<String, String>? headers,
   }) {
     if (expiration > 604800) {
-      print("Expiration Time can't be longer than 604800 seconds (7 days).");
       return "";
     }
 
@@ -75,9 +75,9 @@ class _CloudStorageImpl extends CloudStorage {
     final String host = "$bucketName.storage.googleapis.com";
     headers["host"] = host;
 
-    SplayTreeMap splayTreeMap = SplayTreeMap.from(
+    SplayTreeMap<String, dynamic> splayTreeMap = SplayTreeMap<String, dynamic>.from(
         headers); //this orders the headers alphabetically, important!
-    headers = Map.from(splayTreeMap);
+    headers = Map<String, String>.from(splayTreeMap);
 
     final String canonicalHeaders = headers.entries
         .map((MapEntry<String, String> entry) =>
