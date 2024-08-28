@@ -22,7 +22,7 @@ class _OutfitDataSourceImpl extends OutfitDataSource {
 
     map["clothings"] = clothings;
 
-    return Outfit.fromMap(map);
+    return Outfit.fromMongo(map);
   }
 
   @override
@@ -41,7 +41,7 @@ class _OutfitDataSourceImpl extends OutfitDataSource {
       map["clothings"] = clothings;
     }
 
-    return mapsList.map(Outfit.fromMap).toList();
+    return mapsList.map(Outfit.fromMongo).toList();
   }
 
   Future<List<Clothing>> _getClothingsOfOutfit(
