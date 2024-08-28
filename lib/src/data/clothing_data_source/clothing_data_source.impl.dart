@@ -15,7 +15,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
       throw const ObjectNotFoundException("Clothing");
     }
 
-    return Clothing.fromMap(map);
+    return Clothing.fromMongo(map);
   }
 
   @override
@@ -23,7 +23,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
     final Stream<Map<String, dynamic>> maps =
         clothings.find(where.eq("userId", userId));
 
-    return maps.map(Clothing.fromMap).toList();
+    return maps.map(Clothing.fromMongo).toList();
   }
 
   @override
@@ -46,7 +46,7 @@ class _ClothingDataSourceImpl extends ClothingDataSource {
       throw const ObjectNotFoundException("Clothing");
     }
 
-    final Clothing clothing = Clothing.fromMap(map);
+    final Clothing clothing = Clothing.fromMongo(map);
 
     final Clothing updatedClothing = clothing.copyWith(
       name: name,
