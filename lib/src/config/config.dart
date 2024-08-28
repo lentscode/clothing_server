@@ -3,6 +3,7 @@ library;
 import "package:get_it/get_it.dart";
 import "package:googleapis/storage/v1.dart";
 import "package:googleapis_auth/auth_io.dart";
+import "package:logger/logger.dart";
 import "package:mongo_dart/mongo_dart.dart";
 
 import "../../server.dart";
@@ -18,7 +19,8 @@ Future<void> config([bool testing = false]) async {
       ServiceAccountCredentials.fromJson(Credentials().googleServiceAccount);
 
   final Future<Db> dbFuture =
-      Db.create(testing ? Credentials().mongoUriTest : Credentials().mongoUri)..then((Db db) => db.open());
+      Db.create(testing ? Credentials().mongoUriTest : Credentials().mongoUri)
+        ..then((Db db) => db.open());
 
   final Future<AutoRefreshingAuthClient> googleClientFuture =
       clientViaServiceAccount(
@@ -37,8 +39,11 @@ Future<void> config([bool testing = false]) async {
 
   final CloudStorage cloudStorage = CloudStorage(storageApi);
 
+  final Logger logger = Logger();
+
   getIt.registerSingleton<Auth>(auth);
   getIt.registerSingleton<ClothingDataSource>(clothingDataSource);
   getIt.registerSingleton<OutfitDataSource>(outfitDataSource);
   getIt.registerSingleton<CloudStorage>(cloudStorage);
+  getIt.registerSingleton<Logger>(logger);
 }
