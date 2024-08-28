@@ -13,7 +13,7 @@ class _AuthImpl extends Auth {
       throw InvalidCredentialsException();
     }
 
-    final User user = User.fromMap(map);
+    final User user = User.fromMongo(map);
 
     final String hashedPassword = _hashPassword(password, user.salt);
 
@@ -21,15 +21,24 @@ class _AuthImpl extends Auth {
       throw InvalidCredentialsException();
     }
 
-    user.sessionId = _sessionId();
+    final User userUpdated = user.copyWith(
+      sessionId: _sessionId(),
+      sessionExpiration: DateTime.now().add(const Duration(days: 30)),
+    );
 
     await users.updateOne(
-        where.id(user.id), modify.set("sessionId", user.sessionId));
+      where.id(user.id),
+      modify
+          .set("sessionId", userUpdated.sessionId)
+          .set("sessionExpiration", userUpdated.sessionExpiration),
+    );
 
     final String cookie = _generateCookie(
-        user.sessionId!, DateTime.now().add(const Duration(days: 1)));
+      userUpdated.sessionId!,
+      DateTime.now().add(const Duration(days: 30)),
+    );
 
-    return (user, cookie);
+    return (userUpdated, cookie);
   }
 
   @override
@@ -51,9 +60,23 @@ class _AuthImpl extends Auth {
       salt: salt,
     );
 
-    await users.insert(user.toMapComplete());
+    await users.insert(user.toMongo());
 
     return user;
+  }
+
+  @override
+  Future<User> checkSessionId(String cookie) async {
+    final Map<String, dynamic>? map =
+        await users.findOne(where.eq("sessionId", cookie));
+
+    if (map == null ||
+        (map["sessionExpiration"] != null &&
+            map["sessionExpiration"].isBefore(DateTime.now()))) {
+      throw SessionIdNotValidException();
+    }
+
+    return User.fromMongo(map);
   }
 
   String _generateSalt([int length = 16]) {
@@ -89,17 +112,5 @@ class _AuthImpl extends Auth {
     cookie += "; MaxAge=$seconds";
 
     return cookie;
-  }
-
-  @override
-  Future<User> checkSessionId(String cookie) async {
-    final Map<String, dynamic>? map =
-        await users.findOne(where.eq("sessionId", cookie));
-
-    if (map == null) {
-      throw SessionIdNotValidException();
-    }
-
-    return User.fromMap(map);
   }
 }
