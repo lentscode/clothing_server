@@ -15,7 +15,8 @@ Middleware checkSessionId() => (Handler innerHandler) => (Request req) async {
         return Response.unauthorized(e.toString());
       } on CookieNotFoundException catch (e) {
         return Response.unauthorized(e.toString());
-      } catch (e) {
+      } catch (e, s) {
+        getIt.get<Logger>().e(e, stackTrace: s);
         return Response.internalServerError(body: e.toString());
       }
     };
