@@ -12,6 +12,7 @@ final Router _publicRouter = Router()
   ..post("/register", register);
 
 final Router _privateRouter = Router()
+  ..get("/check", check)
   ..post("/clothings", createClothing)
   ..get("/clothings", getClothingsOfUser)
   ..delete("/clothings", deleteClothing)
