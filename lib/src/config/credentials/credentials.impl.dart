@@ -11,7 +11,6 @@ class _CredentialsImpl implements Credentials {
   String get mongoUriTest => _env["MONGO_URI_TEST"] ?? "";
 
   @override
-  // TODO: implement googleServiceAccount
   Map<String, String> get googleServiceAccount => <String, String>{
         "type": "service_account",
         "project_id": _env["GOOGLE_PROJECT_ID"] ?? "",
